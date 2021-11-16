@@ -14,6 +14,14 @@ class PhoneRepo(private val context: Context) {
         return phoneDao.insertPhone(phone)
     }
 
+    fun updatePhone(phone: Phone) {
+        phoneDao.updatePhone(phone)
+    }
+
+    fun deletePhone(phone: Phone) {
+        phoneDao.deletePhone(phone)
+    }
+
     fun getLivePhone(phoneId: String): LiveData<Phone> =
         phoneDao.getLivePhone(phoneId = phoneId)
 

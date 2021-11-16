@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Phone Book</string>
+    <string name="phone_name">Name</string>
+    <string name="phone_memory_size">Memory Sizes</string>
+    <string name="phone_colors">Colors</string>
+    <string name="phone_prices">Prices</string>
+    <string name="phone_brand">Brand</string>
 </resources>

@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RW_Sec3_OT_PhoneBook">
         <activity
+            android:name=".ui.DetailActivity"
+            android:exported="true"
+            android:label="Phone"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>

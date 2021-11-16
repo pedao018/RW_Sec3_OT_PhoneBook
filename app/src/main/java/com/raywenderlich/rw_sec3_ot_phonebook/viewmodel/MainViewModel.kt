@@ -1,6 +1,9 @@
 package com.raywenderlich.rw_sec3_ot_phonebook.viewmodel
 
 import android.app.Application
+import android.os.Build
+import android.text.Html
+import android.text.Spanned
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,8 +19,8 @@ class MainViewModel(application: Application) :
 
     fun getListPhoneView(): LiveData<List<PhoneView>>? {
         if (phoneList == null)
-            mapPhoneListTempToPhoneView()
-        //mapPhoneListToPhoneView()
+        //mapPhoneListTempToPhoneView()
+            mapPhoneListToPhoneView()
         return phoneList
     }
 
@@ -31,15 +34,25 @@ class MainViewModel(application: Application) :
         }
     }
 
-    private fun phoneToPhoneView(phone: Phone) =
-        PhoneView(
+    private fun phoneToPhoneView(phone: Phone): PhoneView {
+        val info = "<p><h5>${phone.name}</h5><br>" +
+                "<b>Another Info:</b><br> <b>MemorySizes: </b>${phone.memorySizes}.<br> " +
+                "<b>Colors: </b>${phone.colors}.<br> " +
+                "<b>Prices: </b>${phone.prices}.<br> " +
+                "<b>Brand: </b>${phone.brand}</p>"
+        return PhoneView(
             id = phone.id,
-            info = phone.name
+            info = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Html.fromHtml(info, Html.FROM_HTML_MODE_COMPACT)
+            } else {
+                Html.fromHtml(info)
+            }
         )
+    }
 
     data class PhoneView(
         var id: String = "",
-        var info: String = ""
+        var info: Spanned? = null
     )
 
     //MutableLiveData with initial value
@@ -48,10 +61,17 @@ class MainViewModel(application: Application) :
 
     private fun initPhoneViewList(): List<PhoneView> {
         val phoneViewList = mutableListOf<PhoneView>()
-
+        var phone: Phone
         for (i in 1..5) {
-            val phoneView = PhoneView("id$i", "name$i")
-            phoneViewList.add(phoneView)
+            phone = Phone(
+                id = "phoneID$i",
+                name = "Phone $i",
+                memorySizes = "128GB,256GB,512GB",
+                colors = "Red,Green,Blue",
+                prices = "${i}00$,${i}50$,${i}90$",
+                brand = "Brand $i"
+            )
+            phoneViewList.add(phoneToPhoneView(phone))
         }
         return phoneViewList
     }
