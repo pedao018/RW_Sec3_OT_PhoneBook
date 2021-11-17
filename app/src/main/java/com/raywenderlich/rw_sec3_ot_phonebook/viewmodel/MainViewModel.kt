@@ -1,6 +1,7 @@
 package com.raywenderlich.rw_sec3_ot_phonebook.viewmodel
 
 import android.app.Application
+import android.content.Context
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
@@ -10,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.raywenderlich.rw_sec3_ot_phonebook.model.Phone
 import com.raywenderlich.rw_sec3_ot_phonebook.repository.PhoneRepo
+import com.raywenderlich.rw_sec3_ot_phonebook.util.ImageUtils
 
 class MainViewModel(application: Application) :
     AndroidViewModel(application) {
@@ -53,7 +55,11 @@ class MainViewModel(application: Application) :
     data class PhoneView(
         var id: String = "",
         var info: Spanned? = null
-    )
+    ) {
+        fun getImage(context: Context) = id?.let {
+            ImageUtils.loadBitmapFromFile(context, Phone.generateImageFilename(it))
+        }
+    }
 
     //MutableLiveData with initial value
     private fun <T : Any?> MutableLiveData<T>.default(initialValue: T) =

@@ -31,6 +31,10 @@ class PhoneListAdapter(
             holder.binding.root.tag = itemObj
             holder.binding.phoneViewData = itemObj
             //holder.binding.bookmarkIcon.setImageResource(R.drawable.ic_other)
+            val bitmap = itemObj.getImage(context)
+            bitmap?.let {
+                holder.binding.phoneImg.setImageBitmap(it)
+            }
         }
     }
 

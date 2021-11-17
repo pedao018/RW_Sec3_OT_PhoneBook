@@ -1,12 +1,15 @@
 package com.raywenderlich.rw_sec3_ot_phonebook.viewmodel
 
 import android.app.Application
+import android.content.Context
+import android.graphics.Bitmap
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.raywenderlich.rw_sec3_ot_phonebook.model.Phone
 import com.raywenderlich.rw_sec3_ot_phonebook.repository.PhoneRepo
+import com.raywenderlich.rw_sec3_ot_phonebook.util.ImageUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -59,7 +62,7 @@ class DetailViewModel(application: Application) :
         }
     }
 
-    fun deleteBookmark(phoneDetailView: PhoneDetailView) {
+    fun deletePhone(phoneDetailView: PhoneDetailView) {
         GlobalScope.launch {
             // task, do smth in io thread
             var phone = getPhoneRepo(phoneDetailView)
@@ -118,6 +121,16 @@ class DetailViewModel(application: Application) :
     ) {
         companion object {
             fun newInstance(phoneId: String) = PhoneDetailView(phoneId)
+        }
+
+        fun getImage(context: Context) = id?.let {
+            ImageUtils.loadBitmapFromFile(context, Phone.generateImageFilename(it))
+        }
+
+        fun setImage(context: Context, image: Bitmap) {
+            id?.let {
+                ImageUtils.saveBitmapToFile(context, image, Phone.generateImageFilename(it))
+            }
         }
     }
 

@@ -19,6 +19,7 @@ class PhoneRepo(private val context: Context) {
     }
 
     fun deletePhone(phone: Phone) {
+        phone.deleteImage(context)
         phoneDao.deletePhone(phone)
     }
 
